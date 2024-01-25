@@ -24,6 +24,7 @@ jobs:
       - name: Comment with Result
         uses: peter-evans/create-or-update-comment@v1
         with:
+        comment-id: ${{ github.event.comment.id }}
           body: |
             Checking EntryPoint and EIP-155 Support for RPC URL: ${{ steps.extract.outputs.rpc-url }}
             ${{ steps.run-script.outputs.result }}

@@ -8,7 +8,7 @@ jobs:
    check-support:
     runs-on: ubuntu-latest
     if: >-
-      github.event.issue.pull_request == null && 
+      github.event.issue.pull_request == null && github.event.comment.user.login != 'github-actions[bot]' &&
       (contains(github.event.comment.body, 'check ')) && github.event.action == 'created'
     steps:
       - name: Extract RPC URL
@@ -26,6 +26,9 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Checking EntryPoint and EIP-155 Support for RPC URL: ${{ steps.extract.outputs.rpc-url }}
+            @${{ github.event.comment.user.login }} asked for a check:
+            > ${{ github.event.comment.body }}
+            
+            Result for RPC URL: ${{ steps.extract.outputs.rpc-url }}:
             ${{ steps.run-script.outputs.result }}
           token: ${{ secrets.PAT_SECRET }}

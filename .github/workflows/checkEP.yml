@@ -9,10 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >-
       github.event.issue.pull_request == null && 
-      (contains(github.event.comment.body, 'checkEP') ||
-       contains(github.event.comment.body, 'Check entrypoint') ||
-       contains(github.event.comment.body, 'checkEntryPoint') ||
-       contains(github.event.comment.body, 'check'))
+      (contains(github.event.comment.body, 'check ')) && github.event.action == 'created'
     steps:
       - name: Extract RPC URL
         id: extract
@@ -28,6 +25,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ github.event.comment.id }}
           body: |
             Checking EntryPoint and EIP-155 Support for RPC URL: ${{ steps.extract.outputs.rpc-url }}
             ${{ steps.run-script.outputs.result }}

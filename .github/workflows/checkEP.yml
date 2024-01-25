@@ -27,8 +27,6 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             @${{ github.event.comment.user.login }} asked for a check:
-            > ${{ github.event.comment.body }}
-            
             Result for RPC URL: ${{ steps.extract.outputs.rpc-url }}:
             ${{ steps.run-script.outputs.result }}
           token: ${{ secrets.PAT_SECRET }}

@@ -17,4 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Run Script
-        run: ./check_eip155.sh ${{ steps.extract.outputs.rpc-url }}
+        id: run-script
+        run: echo "::set-output name=result::$(./checkEP.sh ${{ steps.extract.outputs.rpc-url }})"
+      - name: Comment with Result
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Checking EntryPoint and EIP-155 Support for RPC URL: ${{ steps.extract.outputs.rpc-url }}
+            ${{ steps.run-script.outputs.result }}

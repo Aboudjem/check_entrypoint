@@ -5,14 +5,19 @@ on:
     types: [created]
 
 jobs:
-  check-support:
+   check-support:
     runs-on: ubuntu-latest
-    if: github.event.issue.pull_request == null && contains(github.event.comment.body, 'check-rpc')
+    if: >-
+      github.event.issue.pull_request == null && 
+      (contains(github.event.comment.body, 'checkEP') ||
+       contains(github.event.comment.body, 'Check entrypoint') ||
+       contains(github.event.comment.body, 'checkEntryPoint') ||
+       contains(github.event.comment.body, 'check'))
     steps:
       - name: Extract RPC URL
         id: extract
         run: |
-          RPC_URL=$(echo ${{ github.event.comment.body }} | grep -oP '(?<=check-rpc ).+')
+          RPC_URL=$(echo "${{ github.event.comment.body }}" | grep -oP '(https?:\/\/[^\s]+)')
           echo "::set-output name=rpc-url::$RPC_URL"
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -26,4 +31,4 @@ jobs:
           body: |
             Checking EntryPoint and EIP-155 Support for RPC URL: ${{ steps.extract.outputs.rpc-url }}
             ${{ steps.run-script.outputs.result }}
-          token: ${{ secrets.YOUR_PAT_SECRET_NAME }}
+          token: ${{ secrets.PAT_SECRET }}

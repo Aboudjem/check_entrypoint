@@ -31,4 +31,4 @@ jobs:
           body: |
             Checking EntryPoint and EIP-155 Support for RPC URL: ${{ steps.extract.outputs.rpc-url }}
             ${{ steps.run-script.outputs.result }}
-          token: ${{ secrets.EP_SECRET }}
+          token: ${{ secrets.PAT_SECRET }}

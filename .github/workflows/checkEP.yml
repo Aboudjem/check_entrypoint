@@ -1,0 +1,20 @@
+name: Check EntryPoint and EIP-155 Support
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  check-support:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request == null && contains(github.event.comment.body, 'check-rpc')
+    steps:
+      - name: Extract RPC URL
+        id: extract
+        run: |
+          RPC_URL=$(echo ${{ github.event.comment.body }} | grep -oP '(?<=check-rpc ).+')
+          echo "::set-output name=rpc-url::$RPC_URL"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run Script
+        run: ./check_eip155.sh ${{ steps.extract.outputs.rpc-url }}

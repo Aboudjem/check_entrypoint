@@ -1,3 +1,5 @@
+> **Archived on 2026-11: a one-off issue bot from 2024, not maintained.**
+
 # EntryPoint Check Tool 🛠️
 
 Welcome to the EntryPoint Check Tool! This utility is designed to help our team and clients quickly verify smart contract deployment status and blockchain capabilities. 
